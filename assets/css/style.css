@@ -4,7 +4,7 @@
 }
 
 body {
-    background-color: rgb(243, 234, 210);
+    background-color: rgb(80, 227, 12);
 }
 
 #card {
@@ -20,12 +20,13 @@ body {
     height: 100%;
     border: 5px solid rgb(14, 14, 56);
     border-radius: 15px;
-    background-color:rgb(174, 197, 211);
+    background-color:rgb(40, 192, 238);
     color: rgb(14, 14, 56);
 }
 
 #start-button {
     font-size: larger;
+    background-color: rgb(233, 243, 245);
 }
 
 #time-left {
@@ -40,7 +41,7 @@ a {
     top: 25px;
     left: 25px;
     color: rgb(14, 14, 56);
-    background-color: rgb(174, 197, 211);
+    background-color: rgb(25, 237, 223);
     border: 5px solid rgb(14, 14, 56);
     border-radius: 15px;
     padding: 5px;
