@@ -14,9 +14,9 @@ This application includes JavaScript, HTML and CSS. A few features included in t
  
 ## Screenshots - Code examples
 Screen shot of application
-![Password-Generator Screenshot](password-generator.png)
+![Code-Quiz Screenshot](code-quiz.png)
 
-Collecting user character inputs to create a password 
+ 
 ```js  
     var hasUpperCase = confirm("Do you want to include upper case letters?");
     var hasLowerCase = confirm("Do you want to include lower case letters?");
