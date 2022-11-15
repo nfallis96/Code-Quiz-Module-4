@@ -2,6 +2,7 @@
 
 ## Table of Contents
 * [Projects Description](#projects-description)
+* [Demo](#demo-of-application)
 * [Screenshots - Code examples](#screenshots---code-examples)
 * [Technologies Used](#technologies-used)
 * [Links](#links)
@@ -10,6 +11,8 @@
 In this project, the purpose was to create a coding quiz that tests a user's understanding of javascript. The application is a quiz that is timed with multiple choice questions. 
 
 This application includes JavaScript, HTML and CSS. A few features included in this application are: a timer function that deducts time from the quiz due to incorrect answers, and displays the user's next question when an answer is submitted. Furthermore, it allows the user to save the highest score in the local storage and see them on a page that displays the history of all scores.
+
+## DEMO of Application
 
  
 ## Screenshots - Code examples
