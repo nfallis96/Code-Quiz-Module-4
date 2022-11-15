@@ -1,87 +1,89 @@
+// create needed variables:
 
+// begin with score at 0
+var currentScore = 0; 
+
+// beginning of the array of questions 
 var questionNumber = 0;
+
+// time left on the timer
+var timeLeft = document.querySelector("#time-left");
+
+// the start button for the quiz and timer
 var startGame = document.querySelector("#start-button");
-var QuestionsEl = document.querySelector("#questions");
-var Time = 60;
-var Timerid;
-var TimerEl = document.getElementById("time")
-var ChoicesEl = document.getElementById("choices")
-var Submitbutton = document.getElementById("submit")
-var InitialsEl = document.getElementById("initials")
 
-// 
-function startquiz() {
-    var startscreenEl = document.getElementById("start-screen")
-    startscreenEl.setAttribute("class", "hide")
-    QuestionsEl.removeAttribute("class")
-    Timerid = setInterval(countdown, 1000)
-    TimerEl.textContent = Time
-    getquestion()
-}
+// where the questions will be displayed
+var quizQuestion = document.querySelector("#quiz-question");
+
+// place where questions, choices, and start button will be held
+var card = document.querySelector("#card");
+
+// time for the quiz
+var startingTime = 60;
+
+// Interval declared for use in functions
+var timerId = 0;
+
+// penalty for incorrect answer
+var incorrectPenalty = 15;
+
+// create ul elements
+var createList = document.createElement("ol");
 
 
-// display question and choices to the card
-function getquestion() {
-    var currentquestion = questions[questionNumber]
-    var titleEl = document.getElementById("question-title")
-    titleEl.textContent = currentquestion.title
-    ChoicesEl.innerHTML = ""
+// start timer on click and show timer on screen
+startGame.addEventListener("click", function() {
+    if (timerId === 0) {
+        timerId = setInterval(function() {
+            startingTime--;
+            timeLeft.textContent = "Seconds Left: " + startingTime;
+
+            if (startingTime <= 0) {
+                clearInterval(timerId);
+                endGame();
+                timeLeft.textContent = "Out of Time!"
+            }
+        }, 1000);
+    }
+    render(questionNumber);
+});
+
+// give question and choices 
+function render(questionNumber) {
+    questionNumber.innerHTML = "";
+    createList.innerHTML = "";
     
-    for (var i = 0; i < currentquestion.choices.length; i++) {
-       var choice = currentquestion.choices[i]
-       var choicenode = document.createElement("button")
-       choicenode.setAttribute("class", "choice")
-       choicenode.setAttribute("value", choice)
-       choicenode.textContent = i + 1 + ". " + choice
-       ChoicesEl.appendChild(choicenode)
+    for (var i = 0; i < questions.length; i++) {
+        var displayQuestion = questions[questionNumber].question;
+        var displayChoices = questions[questionNumber].choices;
+        quizQuestion.textContent = displayQuestion;
     }
-
+    // use for each to display choices
+    displayChoices.forEach(function (newEl) {
+        var li = document.createElement("li");
+        li.textContent = newEl;
+        quizQuestion.appendChild(createList);
+        createList.appendChild(li);
+        li.addEventListener("click", (compareAnswer));
+    })
 }
 
-function countdown() {
-    Time--
-    TimerEl.textContent = Time
-    if(Time <= 0) {
-        endGame()
-    }
-
-}
-
-// 
+// if correct answer display that it is correct. if wrong display that it is wrong
+// if last question, end the game and display message telling user how many answers they got correct
 function compareAnswer(e) {
     var selection = e.target;
- 
-    if (!selection.matches(".choice")) {
-        return
-    }
-
-    if (selection.value!==questions[questionNumber].answer) {
-        Time-=15
-        if (Time<0) {
-            Time=0
+    
+    if (selection.matches("li")) {
+        var createDiv = document.createElement("div");
+        createDiv.setAttribute("id", "createDiv");
+        if (selection.textContent == questions[questionNumber].answer) {
+            currentScore++;
+            createDiv.textContent = questions[questionNumber].answer + " is correct!";
+        } else {
+            startingTime = startingTime - incorrectPenalty;
+            createDiv.textContent = "That is incorrect, the answer is: " + questions[questionNumber].answer;
         }
-        TimerEl.textContent=Time
     }
-    questionNumber++
-    if (Time<=0 || questionNumber===questions.length) {
-        endGame()
-    }
-    else {
-        getquestion()
-    }
-
-
-    // if (selection.matches("li")) {
-    //     var createDiv = document.createElement("div");
-    //     createDiv.setAttribute("id", "createDiv");
-    //     if (selection.textContent == questions[questionNumber].answer) {
-    //         currentScore++;
-    //         createDiv.textContent = questions[questionNumber].answer + " is correct!";
-    //     } else {
-    //         startingTime = startingTime - incorrectPenalty;
-    //         createDiv.textContent = "That is incorrect, the answer is: " + questions[questionNumber].answer;
-    //     }
-    // }
     questionNumber++;
 
     if (questionNumber >= questions.length) {
@@ -93,31 +95,88 @@ function compareAnswer(e) {
     quizQuestion.appendChild(createDiv);
 }
 
-//  
+// end game function 
 function endGame() {
-    clearInterval(Timerid)
-    var endScreen = document.getElementById("end-screen")
-    endScreen.removeAttribute("class")
-    var finalscore = document.getElementById("final-score")
-    finalscore.textContent = Time
-    QuestionsEl.setAttribute("class", "hide")
-}
+    // clear content from quizQuestion and timeLeft
+    quizQuestion.innerHTML = "";
+    timeLeft.innerHTML = "";
+    var timeRemaining = 0;
 
-function highscores() {
-    var initials = InitialsEl.value.trim() 
-    if (initials!== "") {
-        var highscores = JSON.parse(window.localStorage.getItem("highscores")) || []
-        var newscore = {
-            score: Time, 
-            initials: initials,
-        }
-        highscores.push(newscore)
-        window.localStorage.setItem("highscores", JSON.stringify("highscores"))
-        window.location.href = "scores.html"
+    // create Heading that says Quiz Complete and attach to page
+    var createHeading = document.createElement("h1");
+    createHeading.setAttribute("id", "create-heading");
+    createHeading.textContent = "Quiz Complete!";
+
+    quizQuestion.appendChild(createHeading);
+
+    // to display final score
+    var createParagraph = document.createElement("p");
+    createParagraph.setAttribute("id", "create-paragraph");
+
+    quizQuestion.appendChild(createParagraph);
+
+    // set score equal to time left on the timer
+    if (startingTime >= 0) {
+        timeRemaining = startingTime;
+        clearInterval(timerId);
     }
+
+    createParagraph.textContent = "Final Score: " + timeRemaining;
+
+    // create label for user to enter initials and attach to page
+    var createLabel = document.createElement("label");
+    createLabel.setAttribute("id", "create-label");
+    createLabel.textContent = "Enter your initials: ";
+
+    quizQuestion.appendChild(createLabel);
+
+    // create input for user to enter initials and attach to page
+    var createInput = document.createElement("input");
+    createInput.setAttribute("id", "initials");
+    createInput.setAttribute("type", "text");
+    createInput.textContent = "";
+
+    quizQuestion.appendChild(createInput);
+
+    // create submit button and attach to page
+    var createSubmitButton = document.createElement("button");
+    createSubmitButton.setAttribute("id", "submit-button");
+    createSubmitButton.setAttribute("type", "submit");
+    createSubmitButton.textContent = "Submit";
+
+    quizQuestion.appendChild(createSubmitButton);
+
+    // add event listener to submit button so that it responds to click.
+    createSubmitButton.addEventListener("click", function() {
+        var initials = createInput.value;
+        if(initials === null) {
+            console.log("No initials entered"); 
+        } else {
+                var endScore = {
+                initials: initials,
+                score: timeRemaining
+            }
+            
+            // get all previous scores from local storage
+            var allScores = localStorage.getItem("allScores");
+            if(allScores === null) {
+                allScores = [];
+            } else {
+                // user JSON.parse to de-stringify scores when pulling out of local storage
+                allScores = JSON.parse(allScores);
+            }
+            // push end score of the quiz to all scores in local storage
+            allScores.push(endScore);
+            
+            // use JSON.stringify to add newAllScores to local storage
+            var newAllScores = JSON.stringify(allScores);
+            localStorage.setItem("allScores", newAllScores);
+
+            // navigate to leaderboard page
+            window.location.replace("./highscores.html");
+        }
+    });
+
 }
-Submitbutton.onclick = highscores
-startGame.onclick = startquiz
-ChoicesEl.onclick = compareAnswer
 
  
