@@ -86,7 +86,7 @@ function render(questionNumber) {
         var displayChoices = questions[questionNumber].choices;
         quizQuestion.textContent = displayQuestion;
     }
-    // use for each to display choices
+    // use to display choices
     displayChoices.forEach(function (newEl) {
         var li = document.createElement("li");
         li.textContent = newEl;
