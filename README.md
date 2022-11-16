@@ -16,6 +16,7 @@ This application includes JavaScript, HTML and CSS. A few features included in t
 demo of application
 ![Demo](demo.gif)
 
+
 ## Screenshots - Code examples
 Screen shot of application
 ![Code-Quiz Screenshot](code-quiz.png)
