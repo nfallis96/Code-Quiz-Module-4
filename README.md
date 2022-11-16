@@ -38,4 +38,4 @@ Screen shot of application
 
 ## Links
 link to github: https://github.com/nfallis96
-link to deployment: https://nfallis96.github.io/Password-Generator/
+link to deployment: https://nfallis96.github.io/Code-Quiz-Module-4/
