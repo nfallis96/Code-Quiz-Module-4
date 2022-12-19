@@ -10,7 +10,7 @@
 
 <body>
     <a href="scores.html">View Scoreboard</a>
-    <div id="card">
+    <div id="card" class="startQuiz">
         <div id="time-left"></div>
         <div id="quiz-question">
             <h1>Javascript Code Quiz!</h1>
@@ -21,6 +21,12 @@
             <button id="start-button">Start</button>
         </div>
     </div>  
+    <div id="card" class="endQuiz">
+        <h1 id="create-heading">Quiz Complete!</h1>
+        <p id="create-paragraph">Final Score: </p>
+        <input id="initials" placeholder="Enter Your Initials"></input>
+        <button id="submit-button" type="submit">Submit</button>
+    </div>
     
     <script src="assets/js/script.js"></script>
     

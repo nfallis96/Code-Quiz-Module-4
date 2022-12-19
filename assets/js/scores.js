@@ -1,32 +1,28 @@
-// variables needed
+// variables that connect html elements to js
 var scores = document.querySelector("#scores");
 var clearScores = document.querySelector("#clear-scores");
 var backButton = document.querySelector("#back-button");
 
-// add event listener to clear scores button that listens for a click and for a function to clear local storage
+// clear local storage
 clearScores.addEventListener("click", function() {
     localStorage.clear();
     location.reload();
 });
 
-// get all scores from local storage
+// gabs all scores from local storage to display
 var allScores = localStorage.getItem("allScores");
-// use JSON.parse to de-stringify all scores objects in local storage
 allScores = JSON.parse(allScores);
 
-// if all scores are not null, run for loop to repeat through all scores
+// if scores exists, then loop through them and creat an li for each score and initial set
 if (allScores !== null) {
     for (var i = 0; i < allScores.length; i++) {
-        
-        // create li for each individual score object (initials, score)
         var createLi = document.createElement("li");
         createLi.textContent = allScores[i].initials + " - " + allScores[i].score;
-        // attach to page
         scores.appendChild(createLi);
     }
 }
 
-// add event listener that listens for click and navigates back to the quiz, where user can retake quiz
+//go back to index.html
 backButton.addEventListener("click", function() {
     window.location.replace("./index.html");
 });
